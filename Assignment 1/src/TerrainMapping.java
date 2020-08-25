@@ -21,10 +21,9 @@ public class TerrainMapping {
 	static long starttime;
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) {	
 		
 		try {
-
 		input = new File(args[0]);
 		write = new FileWriter(args[1], false);
 		printer = new PrintWriter(write);
@@ -41,29 +40,24 @@ public class TerrainMapping {
 				terrain[i][j] = scanner.nextFloat();
 			}
 		}
-		
-		
+				
 		tick();
 		classify();
-		tock();
-		
-		System.out.println(basins);
-
+		tock();		
 		output();
-
 		}
 		catch(IOException ex){
-			System.out.println("Could not locate essential file");
-			
+			System.out.println("Could not locate essential file");			
 		}					
 	}
 	
-	public static void tick() {
-	
+	public static void tick() {	
+		
 		starttime = System.currentTimeMillis();
 	}
 	
 	public static void tock() {
+		
 		System.out.println("Time taken for run: " + (System.currentTimeMillis() - starttime)/1000f);
 	}
 	
@@ -83,8 +77,7 @@ public class TerrainMapping {
 				if (classified[i][j] == 1) {
 					
 					printer.printf("%s" + "%n", i + " " + j);
-				}
-				
+				}				
 			}
 		}
 		

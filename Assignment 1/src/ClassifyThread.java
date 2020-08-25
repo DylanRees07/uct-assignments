@@ -7,7 +7,7 @@ public class ClassifyThread  extends RecursiveAction{
 	public int colend;
 	public int rowend;
 	float[][] terrain;
-	public int SEQUENTIAL_CUTOFF = 1044484;
+	public int SEQUENTIAL_CUTOFF = 16384;
 	
 	public ClassifyThread(int prowstart, int pcolstart, int prowend, int pcolend, float[][] pterrain) {	
 		
@@ -20,10 +20,10 @@ public class ClassifyThread  extends RecursiveAction{
 		
 	public void compute() {
 		
-		System.out.println((rowend - rowstart + 1)*(colend - colstart + 1));
-		if ( ((rowend - rowstart + 1)*(colend - colstart + 1))<= SEQUENTIAL_CUTOFF)
-		
-		
+		System.out.println("Row: " + rowstart + " " + rowend);
+		System.out.println("Col: " + colstart + " " + colend);
+		if ( ((rowend - rowstart + 1)*(colend - colstart + 1))<= SEQUENTIAL_CUTOFF) {
+			
 			for (int i = rowstart; i <= rowend; i++) {
 
 				for (int j = colstart; j <= colend; j++) {
@@ -72,6 +72,15 @@ public class ClassifyThread  extends RecursiveAction{
 					}				
 				}
 			}
+		}
+		else {
+			ClassifyThread left = new ClassifyThread(rowstart, colstart, rowend/2, colend/2, terrain);
+			ClassifyThread right = new ClassifyThread(rowend/2, colend/2, rowend, colend, terrain);			
+			left.fork();
+			right.fork();
+			left.join();
+			right.join();
+		}
 			
 		return;
 	}
