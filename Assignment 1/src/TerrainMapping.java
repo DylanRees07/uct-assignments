@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 
 
 public class TerrainMapping {
@@ -13,6 +14,10 @@ public class TerrainMapping {
 	static ForkJoinPool fjp = new ForkJoinPool();
 	static File input;
 	static File output;
+	static int basins = 0;
+	static Scanner scanner;
+	static PrintWriter printer;
+	static FileWriter write;
 	
 	
 	
@@ -20,9 +25,10 @@ public class TerrainMapping {
 		
 		try {
 		
-		input = new File("trivialbasin_in.txt");
-		FileWriter write = new FileWriter("testout.txt", false);
-		Scanner scanner = new Scanner(input);
+		input = new File(args[0]);
+		write = new FileWriter(args[1], false);
+		printer = new PrintWriter(write);
+		scanner = new Scanner(input);
 		int rows = scanner.nextInt();
 		int cols = scanner.nextInt();
 		
@@ -36,25 +42,42 @@ public class TerrainMapping {
 			}
 		}
 		
-		for (int k = 0; k < terrain.length; k++) {
-			System.out.println(Arrays.toString(terrain[k]));
-		}
 		
-		//classify();
-		System.out.println(classified[1][1]);
+		
+		classify();
+		
+		System.out.println(basins);
+
+		output();
 
 		}
 		catch(IOException ex){
 			System.out.println("Could not locate essential file");
 			
-		}
-		
-			
+		}					
 	}
 	
 	public static void classify() {
 		
-		fjp.invoke(new ClassifyThread(1, 1, 1, 1, terrain));
+		fjp.invoke(new ClassifyThread(1, 1, terrain.length - 2, terrain[1].length - 2, terrain));
 	}
-
+	
+	public static void output() {
+		
+		printer.printf("%s " + "%n", basins);
+		
+		for (int i = 0; i < classified.length; i++) {
+			
+			for (int j = 0; j < classified[i].length; j++) {
+				
+				if (classified[i][j] == 1) {
+					
+					printer.printf("%s" + "%n", i + " " + j);
+				}
+				
+			}
+		}
+		
+		printer.close();
+	}
 }

@@ -7,8 +7,7 @@ public class ClassifyThread  extends RecursiveAction{
 	public int colend;
 	public int rowend;
 	double[][] terrain;
-	public int SEQUENTIAL_CUTOFF = 1;
-
+	public int SEQUENTIAL_CUTOFF = 64516;
 	
 	public ClassifyThread(int prowstart, int pcolstart, int prowend, int pcolend, double[][] pterrain) {	
 		
@@ -16,15 +15,12 @@ public class ClassifyThread  extends RecursiveAction{
 		this.rowstart = prowstart;
 		this.colend = pcolend;
 		this.rowend = prowend;
-		this.terrain = pterrain;
-		
+		this.terrain = pterrain;		
 	}
-	
-	
+		
 	public void compute() {
 		
-
-		
+		System.out.println((rowend - rowstart + 1)*(colend - colstart + 1));
 		if ( ((rowend - rowstart + 1)*(colend - colstart + 1))<= SEQUENTIAL_CUTOFF)
 		
 		
@@ -34,42 +30,42 @@ public class ClassifyThread  extends RecursiveAction{
 					
 					double test = terrain[i][j];
 					boolean basin = true;
-					
-						
-					if ((test + 0.01) >= terrain[i + 1][j]) {
+											
+					if ((test + 0.01) > terrain[i + 1][j]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i - 1][j]) {
+					if ((test + 0.01) > terrain[i - 1][j]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i + 1][j + 1]) {
+					if ((test + 0.01) > terrain[i + 1][j + 1]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i + 1][j - 1]) {
+					if ((test + 0.01) > terrain[i + 1][j - 1]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i - 1][j + 1]) {
+					if ((test + 0.01) > terrain[i - 1][j + 1]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i - 1][j - 1]) {
+					if ((test + 0.01) > terrain[i - 1][j - 1]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i][j + 1]) {
+					if ((test + 0.01) > terrain[i][j + 1]) {
 						basin = false;
 					}
 						
-					if ((test + 0.01) >= terrain[i][j - 1]) {
+					if ((test + 0.01) > terrain[i][j - 1]) {
 						basin = false;
 					}
 								
 					if (basin == true) {
 						TerrainMapping.classified[i][j] = 1;
+						TerrainMapping.basins+=1;
 					}
 					else {
 						TerrainMapping.classified[i][j] = 0;
@@ -79,5 +75,4 @@ public class ClassifyThread  extends RecursiveAction{
 			
 		return;
 	}
-
 }
