@@ -2,15 +2,20 @@ import java.util.concurrent.RecursiveAction;
 
 public class ClassifyThread  extends RecursiveAction{
 	
-	public int col;
-	public int row;
+	public int colstart;
+	public int rowstart;
+	public int colend;
+	public int rowend;
 	double[][] terrain;
+	public int SEQUENTIAL_CUTOFF = 1;
 
 	
-	public ClassifyThread(int prow, int pcol, double[][] pterrain) {	
+	public ClassifyThread(int prowstart, int pcolstart, int prowend, int pcolend, double[][] pterrain) {	
 		
-		this.col = pcol;
-		this.row = prow;
+		this.colstart = pcolstart;
+		this.rowstart = prowstart;
+		this.colend = pcolend;
+		this.rowend = prowend;
 		this.terrain = pterrain;
 		
 	}
@@ -18,50 +23,60 @@ public class ClassifyThread  extends RecursiveAction{
 	
 	public void compute() {
 		
-		double test = TerrainMapping.terrain[row][col];
-		boolean basin = true;
+
 		
-			
-		if ((test + 0.01) >= terrain[row + 1][col]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row - 1][col]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row + 1][col + 1]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row + 1][col - 1]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row - 1][col + 1]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row - 1][col - 1]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row][col + 1]) {
-			basin = false;
-		}
-			
-		if ((test + 0.01) >= terrain[row][col - 1]) {
-			basin = false;
-		}
-			
+		if ( ((rowend - rowstart + 1)*(colend - colstart + 1))<= SEQUENTIAL_CUTOFF)
 		
-		if (basin == true) {
-			TerrainMapping.classified[row][col] = 1;
-		}
-		else {
-			TerrainMapping.classified[row][col] = 0;
-		}
 		
+			for (int i = rowstart; i <= rowend; i++) {
+
+				for (int j = colstart; j <= colend; j++) {
+					
+					double test = terrain[i][j];
+					boolean basin = true;
+					
+						
+					if ((test + 0.01) >= terrain[i + 1][j]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i - 1][j]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i + 1][j + 1]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i + 1][j - 1]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i - 1][j + 1]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i - 1][j - 1]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i][j + 1]) {
+						basin = false;
+					}
+						
+					if ((test + 0.01) >= terrain[i][j - 1]) {
+						basin = false;
+					}
+								
+					if (basin == true) {
+						TerrainMapping.classified[i][j] = 1;
+					}
+					else {
+						TerrainMapping.classified[i][j] = 0;
+					}				
+				}
+			}
+			
 		return;
 	}
 
