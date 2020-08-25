@@ -5,6 +5,7 @@ public class TerrainMapping {
 	
 	static double[][] terrain;
 	static int[][] classified;
+	static ForkJoinPool fjp = new ForkJoinPool();
 	
 	
 	public static void main(String[] args) {
@@ -20,7 +21,16 @@ public class TerrainMapping {
 		}
 		
 		terrain[1][1] = 3.2;
+		classify();
+		System.out.println(classified[1][1]);
+
+		
 			
+	}
+	
+	public static void classify() {
+		
+		fjp.invoke(new ClassifyThread(1, 1, terrain));
 	}
 
 }
