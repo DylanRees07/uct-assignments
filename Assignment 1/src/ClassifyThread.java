@@ -6,10 +6,10 @@ public class ClassifyThread  extends RecursiveAction{
 	public int rowstart;
 	public int colend;
 	public int rowend;
-	double[][] terrain;
-	public int SEQUENTIAL_CUTOFF = 64516;
+	float[][] terrain;
+	public int SEQUENTIAL_CUTOFF = 1044484;
 	
-	public ClassifyThread(int prowstart, int pcolstart, int prowend, int pcolend, double[][] pterrain) {	
+	public ClassifyThread(int prowstart, int pcolstart, int prowend, int pcolend, float[][] pterrain) {	
 		
 		this.colstart = pcolstart;
 		this.rowstart = prowstart;

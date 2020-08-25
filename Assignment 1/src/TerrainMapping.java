@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 public class TerrainMapping {
 	
-	static double[][] terrain;
+	static float[][] terrain;
 	static int[][] classified;
 	static ForkJoinPool fjp = new ForkJoinPool();
 	static File input;
@@ -32,13 +32,13 @@ public class TerrainMapping {
 		int rows = scanner.nextInt();
 		int cols = scanner.nextInt();
 		
-		terrain = new double[rows][cols];
+		terrain = new float[rows][cols];
 		classified = new int[rows][cols];
 		
 		for (int i = 0; i < terrain.length; i++) {
 			
 			for (int j = 0; j < terrain[i].length; j++) {
-				terrain[i][j] = scanner.nextDouble();
+				terrain[i][j] = scanner.nextFloat();
 			}
 		}
 		
