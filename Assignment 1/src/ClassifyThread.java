@@ -1,13 +1,13 @@
 import java.util.concurrent.RecursiveAction;
 
-public class ClassifyThread  extends RecursiveAction{
+public class ClassifyThread extends RecursiveAction{
 	
 	public int colstart;
 	public int rowstart;
 	public int colend;
 	public int rowend;
 	float[][] terrain;
-	public int SEQUENTIAL_CUTOFF = 524288/2;
+	public int SEQUENTIAL_CUTOFF = 262143;
 	
 	public ClassifyThread(int prowstart, int pcolstart, int prowend, int pcolend, float[][] pterrain) {	
 		
@@ -22,9 +22,6 @@ public class ClassifyThread  extends RecursiveAction{
 		
 		float test;
 		if ( ((rowend - rowstart + 1)*(colend - colstart + 1))<= SEQUENTIAL_CUTOFF) {
-//			System.out.println("SEQUENTIAL_CUTOFF MET FOR: " + "\n" + "rowstart: " + rowstart + " colstart: " + colstart
-//					+ "\n" + "rowend: "  + rowend + " colend: " + colend);
-			
 			
 			for (int i = (int) rowstart; i <= rowend; i++) {
 
@@ -66,7 +63,6 @@ public class ClassifyThread  extends RecursiveAction{
 					}
 								
 					if (basin == true) {
-//						System.out.println("Basin found: " + i + " " + j);
 						TerrainMapping.classified[i][j] = 1;
 						TerrainMapping.basins+=1;
 					}
@@ -89,8 +85,6 @@ public class ClassifyThread  extends RecursiveAction{
 			topright.join();
 			botleft.join();
 			return;
-		}
-			
-
+		}			
 	}
 }

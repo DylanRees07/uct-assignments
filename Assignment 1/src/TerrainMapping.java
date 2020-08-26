@@ -40,14 +40,14 @@ public class TerrainMapping {
 				terrain[i][j] = scanner.nextFloat();
 			}
 		}
-				
-		tick();
-		classify();
-		tock();	
 		
-//		for (int k = 0; k < classified.length; k++) {
-//			System.out.println(Arrays.toString(classified[k]));
-//		}
+		ClassifyThread thread = new ClassifyThread(1,1, terrain.length - 2, terrain[1].length - 2, terrain);
+		
+			tick();
+			//thread.compute();
+			classify();
+			tock();	
+		
 		
 		output();
 		System.gc();
