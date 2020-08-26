@@ -43,8 +43,14 @@ public class TerrainMapping {
 				
 		tick();
 		classify();
-		tock();		
+		tock();	
+		
+//		for (int k = 0; k < classified.length; k++) {
+//			System.out.println(Arrays.toString(classified[k]));
+//		}
+		
 		output();
+		System.gc();
 		}
 		catch(IOException ex){
 			System.out.println("Could not locate essential file");			
@@ -63,7 +69,7 @@ public class TerrainMapping {
 	
 	public static void classify() {
 		
-		fjp.invoke(new ClassifyThread(1, 1, terrain.length - 2, terrain[1].length - 2, terrain));
+		fjp.invoke(new ClassifyThread(1, 1, terrain.length -2, terrain[1].length - 2, terrain));
 	}
 	
 	public static void output() {
